@@ -23,7 +23,12 @@ pipeline {
         }
         stage("Code coverage") {
             steps {
-               sh "checkstyle:checkstyle"
+               sh "mvn checkstyle:checkstyle"
+               publishHTML (target: [
+				reportDir: 'target/site',
+				reportFiles: 'checkstyle.html',
+				reportName: "Checkstyle"
+				])
             }
         }
     }
