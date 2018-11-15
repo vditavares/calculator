@@ -21,5 +21,10 @@ pipeline {
                sh "mvn clean test"
             }
         }
+        stage("Code coverage") {
+            steps {
+               sh "checkstyle:checkstyle"
+            }
+        }
     }
 }
