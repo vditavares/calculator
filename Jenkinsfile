@@ -24,22 +24,13 @@ pipeline {
                sh "mvn clean test"
             }
         }
-        stage("Code coverage") {
+        stage("Static code analysis") {
             steps {
-              sh " mvn clean clover:instrument clover:clover"
-              publishHTML (target: [
-					reportDir: 'target/site/clover/com/example/calculator',
-					reportFiles: 'Calculator.html',
-					reportName: "Clover Report"
-				])
-               sh "mvn clean clover:instrument clover:check"
+              sh "mvn clean checkstyle:checkstyle"
+              
                
             }
         }
     }
-    post {
-        always {
-            junit '/target/surefire-reports/*.xml'
-        }
-    }
+   
 }
