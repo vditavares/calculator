@@ -22,6 +22,7 @@ pipeline {
          stage("Unit Test") {
             steps {
                sh "mvn clean test"
+               junit 'target/surefire-reports/*.xml'
             }
         }
         stage("Code coverage") {
@@ -46,9 +47,5 @@ pipeline {
             }
         }
     }
-   	post {
-    	always {
-        	junit 'target/surefire-reports/*.xml'
-        }
-   	}
+   	
 }
