@@ -26,12 +26,8 @@ pipeline {
         }
         stage("Code coverage") {
             steps {
-               sh "mvn checkstyle:checkstyle"
-               publishHTML (target: [
-				reportDir: 'target/site',
-				reportFiles: 'checkstyle.html',
-				reportName: "Checkstyle"
-				])
+               sh "mvn clean clover:instrument clover:check"
+               
             }
         }
     }
