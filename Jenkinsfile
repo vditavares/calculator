@@ -26,8 +26,12 @@ pipeline {
         }
         stage("Code coverage") {
             steps {
-               sh " mvn clover:instrument clover:clover"
-              
+              sh " mvn clean clover:instrument clover:clover"
+              publishHTML (target: [
+					reportDir: 'target/site/clover/com/example/calculator',
+					reportFiles: 'Calculator.html',
+					reportName: "Clover Report"
+				])
                sh "mvn clean clover:instrument clover:check"
                
             }
@@ -35,7 +39,7 @@ pipeline {
     }
     post {
         always {
-            junit 'target/*.xml'
+            junit '/target/surefire-reports/*.xml'
         }
     }
 }
