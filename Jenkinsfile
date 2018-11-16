@@ -37,7 +37,7 @@ pipeline {
     }
    	post {
     	always {
-        	junit 'target/checkstyle-result.xml'
+        	junit 'target/surefire-reports/*.xml'
         }
    	}
 }
