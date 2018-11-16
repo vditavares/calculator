@@ -25,8 +25,13 @@ pipeline {
             }
         }
         stage("Static code analysis") {
-            steps {
-              sh "mvn clean checkstyle:checkstyle"
+        	steps {
+            	sh "mvn clean checkstyle:checkstyle"
+              	publishHTML (target: [
+					reportDir: 'target/site/',
+					reportFiles: 'checkstyle.html',
+					reportName: "Checkstyle Report"
+				])
             }
         }
     }
