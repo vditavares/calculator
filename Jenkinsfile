@@ -16,10 +16,20 @@ pipeline {
         }
         stage("Compile") {
             steps {
-               sh "mvn compile"
+               sh "mvn clean compile"
             }
         }
-         stage("Unit Test") {
+        stage("Package") {
+            steps {
+               sh "mvn package -DskipTests"
+            }
+        }
+        stage("Docker build") {
+			steps {
+				sh "docker build -t calculator ."
+			}
+		}        
+        stage("Unit Test") {
             steps {
                sh "mvn clean test"
                junit 'target/surefire-reports/*.xml'
