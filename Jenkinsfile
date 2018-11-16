@@ -27,7 +27,11 @@ pipeline {
         stage("Code coverage") {
             steps {
               sh " mvn clean clover:instrument clover:clover"
-             
+              publishHTML (target: [
+					reportDir: 'target/site/clover/com/example/calculator',
+					reportFiles: 'Calculator.html',
+					reportName: "Clover Report"
+				])
                sh "mvn clean clover:instrument clover:check"
                
             }
