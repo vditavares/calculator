@@ -26,6 +26,8 @@ pipeline {
         }
         stage("Code coverage") {
             steps {
+               sh " mvn clover:instrument clover:clover"
+              
                sh "mvn clean clover:instrument clover:check"
                
             }
