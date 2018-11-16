@@ -32,7 +32,7 @@ pipeline {
     }
    	post {
     	always {
-        	junit 'target/*.xml'
+        	junit 'target/checkstyle-result.xml'
         }
    	}
 }
