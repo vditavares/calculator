@@ -7,13 +7,23 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import org.calculator.Calculator;
-
+/**
+ * 
+ * @author valdinei
+ *
+ */
 @Path("/calculatorController")
 public class CalculatorController {
 
 	@Inject
 	private Calculator calculator;
 
+	/**
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	@GET
 	@Path("/sum")
 	@Produces("text/plain")
