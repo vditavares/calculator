@@ -21,8 +21,17 @@
 				<version>3.0.0</version>
 				<configuration>
 					<configLocation>checkstyle.xml</configLocation>
-					 <failsOnError>true</failsOnError>
+					<failsOnError>true</failsOnError>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+			<plugin>
+				<groupId>org.openclover</groupId>
+				<artifactId>clover-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

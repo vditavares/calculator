@@ -24,6 +24,17 @@ pipeline {
                sh "mvn clean test"
             }
         }
+        stage("Code coverage") {
+			steps {
+				sh "mvn clover:instrument clover:check"
+					publishHTML (target: [
+						reportDir: 'target/site/clover/',
+						reportFiles: 'index.html',
+						reportName: "Clover Report"
+					])
+				sh "mvn clover:check -Dmaven.clover.targetPercentage=50% -Dmaven.clover.failOnViolation=true"
+			}
+		}
         stage("Static code analysis") {
         	steps {
             	sh "mvn clean checkstyle:checkstyle"
