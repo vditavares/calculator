@@ -27,10 +27,12 @@ pipeline {
         stage("Static code analysis") {
             steps {
               sh "mvn clean checkstyle:checkstyle"
-              
-               
             }
         }
     }
-   
+   	post {
+    	always {
+        	junit 'target/*.xml'
+        }
+   	}
 }
