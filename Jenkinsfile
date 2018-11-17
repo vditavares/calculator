@@ -1,5 +1,5 @@
 pipeline {
-     agent any
+    agent any
     triggers {
 		pollSCM('* * * * *')
 	}
@@ -11,7 +11,7 @@ pipeline {
             args '-v /root/.m2:/root/.m2'
         }
     }
-            steps {
+    steps {
                 git url: 'https://github.com/vditavares/calculator.git'
             }
         }
@@ -22,7 +22,7 @@ pipeline {
             args '-v /root/.m2:/root/.m2'
         }
     }
-            steps {
+   steps {
                sh "mvn clean compile"
             }
         }
@@ -41,7 +41,13 @@ pipeline {
 			steps {
 				sh "docker build -t calculator ."
 			}
-		}        
+		}  
+		
+stage("Docker push") {
+steps {
+sh "docker push localhost:5000/calculator"
+}
+}		      
         stage("Unit Test") {
                agent {
         docker {
