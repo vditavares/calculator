@@ -1,4 +1,5 @@
 pipeline {
+    agent any
     triggers {
 		pollSCM('* * * * *')
 	}
@@ -19,13 +20,11 @@ pipeline {
             }
         }
         stage("Docker build") {
-			agent any
 			steps {
 				sh "docker build -t localhost:5000/calculator ."
 			}
 		}  
 		stage("Docker push") {
-			agent any
 			steps {
 				sh "docker push localhost:5000/calculator"
 			}
