@@ -1,72 +1,44 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
     triggers {
 		pollSCM('* * * * *')
 	}
     stages {
         stage("Checkout") {
-                agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
-    steps {
+            steps {
                 git url: 'https://github.com/vditavares/calculator.git'
             }
         }
         stage("Compile") {
-                agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
-   steps {
+            steps {
                sh "mvn clean compile"
             }
         }
         stage("Package") {
-                agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
             steps {
                sh "mvn package -DskipTests"
             }
         }
         stage("Docker build") {
+			agent any 
 			steps {
-				sh "docker build -t localhost:5000/calculator ."
-			}
-		}  
-		
-stage("Docker push") {
-steps {
-sh "docker push localhost:5000/calculator"
-}
-}		      
-        stage("Unit Test") {
-               agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
+               echo 'Hello World'
+               
+            }
     }
+		}        
+        stage("Unit Test") {
             steps {
                sh "mvn clean test"
                junit 'target/surefire-reports/*.xml'
             }
         }
         stage("Code coverage") {
-			    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
 			steps {
 				//sh "mvn clean clover:instrument clover:clover"
 				///publishHTML (target: [
@@ -78,12 +50,6 @@ sh "docker push localhost:5000/calculator"
 			}
 		}
         stage("Static code analysis") {
-        	    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
         	steps {
             	sh "mvn clean checkstyle:checkstyle"
               	publishHTML (target: [
@@ -93,6 +59,5 @@ sh "docker push localhost:5000/calculator"
 				])
             }
         }
-    }
    	
 }
