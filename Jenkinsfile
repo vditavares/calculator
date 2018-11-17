@@ -30,7 +30,6 @@ pipeline {
                echo 'Hello World'
                
             }
-    }
 		}        
         stage("Unit Test") {
             steps {
@@ -59,5 +58,6 @@ pipeline {
 				])
             }
         }
+    }
    	
 }
