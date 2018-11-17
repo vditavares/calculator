@@ -27,7 +27,9 @@ pipeline {
         stage("Docker build") {
 			agent any
 			steps {
-				docker.build("calculator")
+				script {
+				    docker.build("calculator")
+				}
 			}
 		}        
         stage("Unit Test") {
