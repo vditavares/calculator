@@ -25,7 +25,7 @@ pipeline {
             }
         }
         stage("Docker build") {
-			agent none
+			agent { label 'my-defined-label' }
 			steps {
 				script {
 				    def apitestimage = docker.build("calculator")
