@@ -25,9 +25,9 @@ pipeline {
             }
         }
         stage("Docker build") {
-			agent none
+			agent any
 			steps {
-				sh "docker build -t calculator ."
+				docker.build("calculator")
 			}
 		}        
         stage("Unit Test") {
