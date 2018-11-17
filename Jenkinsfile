@@ -32,7 +32,9 @@ pipeline {
             }
         }
         stage("Docker build") {
-			sh "docker build -t localhost:5000/calculator ."
+			steps {
+				sh "docker build -t localhost:5000/calculator ."
+			}
 		}  
 		stage("Docker push") {
 			steps {
