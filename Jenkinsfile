@@ -28,7 +28,7 @@ pipeline {
 			agent any
 			steps {
 				script {
-				    docker.build("calculator")
+				    def apitestimage = docker.build("calculator")
 				}
 			}
 		}        
