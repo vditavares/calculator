@@ -1,14 +1,13 @@
 pipeline {
-    stage("Checkout") {
-        steps {
-                git url: 'https://github.com/vditavares/calculator.git'
-    	}
-    }
     triggers {
 		pollSCM('* * * * *')
 	}
     stages {
-
+	    stage("Checkout") {
+	        steps {
+	                git url: 'https://github.com/vditavares/calculator.git'
+	    	}
+	    }
         stage("Compile") {
             steps {
                sh "mvn clean compile"
@@ -30,7 +29,12 @@ pipeline {
 			steps {
 				sh "docker push localhost:5000/calculator"
 			}
-		}		      
+		}	
+		stage("Deploy to staging") {
+			steps {
+				docker "run -d --rm -p 8765:8080 --name calculator localhost:5000/calculator"
+			}
+		}	      
         stage("Unit Test") {
             steps {
                sh "mvn clean test"
