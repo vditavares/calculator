@@ -1,44 +1,65 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
     triggers {
 		pollSCM('* * * * *')
 	}
     stages {
         stage("Checkout") {
+                agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
             steps {
                 git url: 'https://github.com/vditavares/calculator.git'
             }
         }
         stage("Compile") {
+                agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
             steps {
                sh "mvn clean compile"
             }
         }
         stage("Package") {
+                agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
             steps {
                sh "mvn package -DskipTests"
             }
         }
         stage("Docker build") {
-			agent { label 'my-defined-label' }
 			steps {
-				script {
-				    def apitestimage = docker.build("calculator")
-				}
+				sh "docker build -t calculator ."
 			}
 		}        
         stage("Unit Test") {
+               agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
             steps {
                sh "mvn clean test"
                junit 'target/surefire-reports/*.xml'
             }
         }
         stage("Code coverage") {
+			    agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
 			steps {
 				//sh "mvn clean clover:instrument clover:clover"
 				///publishHTML (target: [
@@ -50,6 +71,12 @@ pipeline {
 			}
 		}
         stage("Static code analysis") {
+        	    agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
         	steps {
             	sh "mvn clean checkstyle:checkstyle"
               	publishHTML (target: [
