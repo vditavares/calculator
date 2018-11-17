@@ -32,11 +32,13 @@ pipeline {
             }
         }
         stage("Docker build") {
-			 
+			sh "docker build -t localhost:5000/calculator ."
+		}  
+		stage("Docker push") {
 			steps {
-               echo 'Hello World'
-            }
-		}        
+				sh "docker push localhost:5000/calculator"
+			}
+		}		      
         stage("Unit Test") {
 			agent {
 		        docker {
