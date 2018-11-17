@@ -25,7 +25,7 @@ pipeline {
             }
         }
         stage("Docker build") {
-			agent any
+			agent none
 			steps {
 				script {
 				    def apitestimage = docker.build("calculator")
